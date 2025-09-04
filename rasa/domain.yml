@@ -1,0 +1,244 @@
+version: '3.1'
+
+# Intents - User intentions
+intents:
+  # Greetings and social
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  
+  # Course related
+  - ask_course_info
+  - ask_course_list
+  - ask_course_details
+  - ask_course_prerequisites
+  - ask_course_schedule
+  - ask_course_pricing
+  - ask_course_instructor
+  - search_courses
+  
+  # Enrollment related
+  - ask_enrollment_process
+  - start_enrollment
+  - check_enrollment_status
+  - cancel_enrollment
+  - ask_enrollment_requirements
+  - ask_enrollment_deadline
+  
+  # Academic information
+  - ask_academic_calendar
+  - ask_grades
+  - ask_certificates
+  - ask_graduation_requirements
+  - ask_student_progress
+  
+  # Payment and fees
+  - ask_fees
+  - ask_payment_methods
+  - ask_payment_deadline
+  - ask_refund_policy
+  - ask_financial_aid
+  - ask_scholarships
+  
+  # Technical support
+  - ask_technical_help
+  - report_technical_issue
+  - ask_login_help
+  - ask_password_reset
+  
+  # General information
+  - ask_contact_info
+  - ask_location
+  - ask_hours
+  - ask_policies
+  - ask_about_institution
+  
+  # Booking and scheduling
+  - book_appointment
+  - cancel_appointment
+  - reschedule_appointment
+  - ask_availability
+  
+  # FAQ
+  - faq
+  
+  # Fallback
+  - nlu_fallback
+  - out_of_scope
+
+# Entities - Information to extract
+entities:
+  - course_name
+  - course_code
+  - instructor_name
+  - date
+  - time
+  - price
+  - student_id
+  - email
+  - phone_number
+  - program_type
+  - level
+  - duration
+  - category
+  - payment_method
+  - appointment_type
+
+# Slots - Memory storage
+slots:
+  user_name:
+    type: text
+    mappings:
+    - type: from_text
+      conditions:
+      - active_loop: user_name_form
+        requested_slot: user_name
+  
+  email:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: email
+  
+  course_name:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: course_name
+  
+  course_code:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: course_code
+  
+  student_id:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: student_id
+  
+  appointment_date:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: date
+  
+  appointment_time:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: time
+  
+  requested_slot:
+    type: unfeaturized
+    mappings:
+    - type: from_text
+
+# Responses - Bot replies
+responses:
+  utter_greet:
+    - text: "Hello! Welcome to our Education Support Assistant. I'm here to help you with course information, enrollment, and answer any questions you might have. How can I assist you today?"
+    - text: "Hi there! 👋 I'm your AI Education Assistant. I can help you with courses, enrollment, schedules, and much more. What would you like to know?"
+  
+  utter_goodbye:
+    - text: "Goodbye! Thank you for using our Education Support Assistant. Have a great day!"
+    - text: "Thank you for chatting with me! If you need any more help, I'll be here. Goodbye!"
+  
+  utter_iamabot:
+    - text: "I am ChatBotX, your AI Education Assistant. I'm designed to help students and prospective students with course information, enrollment processes, and general academic inquiries."
+  
+  utter_ask_course_info:
+    - text: "I'd be happy to help you with course information! We offer a wide range of programs including:"
+    - text: "Here are our available course categories:"
+      buttons:
+      - title: "Computer Science"
+        payload: '/ask_course_details{"category":"Computer Science"}'
+      - title: "Data Science"
+        payload: '/ask_course_details{"category":"Data Science"}'
+      - title: "Web Development"
+        payload: '/ask_course_details{"category":"Web Development"}'
+      - title: "Business"
+        payload: '/ask_course_details{"category":"Business"}'
+  
+  utter_ask_enrollment_process:
+    - text: "The enrollment process is simple! Here's what you need to do:\n\n1. Browse our course catalog\n2. Select your desired course\n3. Check prerequisites\n4. Submit your application\n5. Complete payment\n\nWould you like me to help you start the enrollment process?"
+      buttons:
+      - title: "Start Enrollment"
+        payload: '/start_enrollment'
+      - title: "Browse Courses"
+        payload: '/ask_course_list'
+      - title: "Check Requirements"
+        payload: '/ask_enrollment_requirements'
+  
+  utter_ask_payment_methods:
+    - text: "We accept various payment methods:\n\n💳 Credit/Debit Cards (Visa, Mastercard, American Express)\n🏦 Bank Transfers\n💰 PayPal\n📱 Digital Wallets\n💵 Installment Plans\n\nWe also offer financial aid and scholarships for eligible students."
+  
+  utter_ask_contact_info:
+    - text: "Here's how you can reach us:\n\n📧 Email: support@education.com\n📞 Phone: +1 (555) 123-4567\n🏢 Office: 123 Education Street, Learning City\n🕒 Hours: Monday-Friday, 9 AM - 5 PM\n💬 Live Chat: Available 24/7 (that's me!)"
+  
+  utter_ask_technical_help:
+    - text: "I can help you with technical issues! Common problems I can assist with:\n\n🔐 Login problems\n🔑 Password reset\n💻 Platform navigation\n📱 Mobile app issues\n🎥 Video/audio problems\n\nWhat specific technical issue are you experiencing?"
+  
+  utter_default:
+    - text: "I'm sorry, I didn't quite understand that. Could you please rephrase your question?"
+    - text: "I'm not sure about that. Could you try asking in a different way? I'm here to help with course information, enrollment, and academic questions."
+      buttons:
+      - title: "Course Information"
+        payload: '/ask_course_info'
+      - title: "Enrollment Help"
+        payload: '/ask_enrollment_process'
+      - title: "Contact Support"
+        payload: '/ask_contact_info'
+      - title: "Technical Help"
+        payload: '/ask_technical_help'
+  
+  utter_ask_user_name:
+    - text: "To provide you with personalized assistance, could you please tell me your name?"
+  
+  utter_ask_course_preferences:
+    - text: "What type of course are you interested in? Please tell me about your preferences such as subject area, level, or specific topics."
+
+# Actions - Custom actions
+actions:
+  - action_search_courses
+  - action_get_course_details
+  - action_start_enrollment
+  - action_book_appointment
+  - action_get_student_info
+  - action_process_payment
+  - action_send_confirmation
+  - action_escalate_to_human
+  - action_provide_faq_answer
+  - action_default_fallback
+  - validate_user_name_form
+  - validate_enrollment_form
+  - validate_appointment_form
+
+# Forms - Multi-turn conversations
+forms:
+  user_name_form:
+    required_slots:
+    - user_name
+  
+  enrollment_form:
+    required_slots:
+    - course_name
+    - user_name
+    - email
+  
+  appointment_form:
+    required_slots:
+    - appointment_date
+    - appointment_time
+    - user_name
+    - email
+
+# Session configuration
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true 

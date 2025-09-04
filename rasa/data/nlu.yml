@@ -1,0 +1,301 @@
+version: "3.1"
+
+nlu:
+- intent: greet
+  examples: |
+    - hello
+    - hi
+    - hey
+    - good morning
+    - good afternoon
+    - good evening
+    - greetings
+    - hi there
+    - hello there
+    - hey there
+    - what's up
+    - howdy
+
+- intent: goodbye
+  examples: |
+    - bye
+    - goodbye
+    - see you later
+    - talk to you later
+    - have a good day
+    - farewell
+    - catch you later
+    - until next time
+    - bye bye
+    - good night
+    - take care
+
+- intent: affirm
+  examples: |
+    - yes
+    - yeah
+    - yep
+    - sure
+    - absolutely
+    - definitely
+    - of course
+    - that's right
+    - correct
+    - exactly
+    - indeed
+    - right
+    - ok
+    - okay
+
+- intent: deny
+  examples: |
+    - no
+    - nope
+    - not really
+    - I don't think so
+    - no way
+    - never
+    - not at all
+    - definitely not
+    - absolutely not
+    - that's wrong
+    - incorrect
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you human?
+    - am I talking to a robot?
+    - are you real?
+    - who are you?
+    - what are you?
+    - are you an AI?
+    - are you artificial intelligence?
+
+- intent: ask_course_info
+  examples: |
+    - what courses do you offer?
+    - tell me about your courses
+    - what programs are available?
+    - show me course catalog
+    - I want to know about courses
+    - what can I study here?
+    - course information
+    - available programs
+    - what subjects do you teach?
+    - course offerings
+
+- intent: ask_course_details
+  examples: |
+    - tell me about [Computer Science](course_name)
+    - what is [Data Science](course_name) course about?
+    - [Web Development](course_name) course details
+    - I want to know about [Business](course_name) program
+    - course details for [Python Programming](course_name)
+    - information about [Machine Learning](course_name)
+    - tell me more about [Digital Marketing](course_name)
+    - what does [Cybersecurity](course_name) course cover?
+
+- intent: ask_course_pricing
+  examples: |
+    - how much does the course cost?
+    - what are the fees?
+    - course pricing
+    - tuition fees
+    - cost of [Data Science](course_name) course
+    - price for [Web Development](course_name)
+    - how expensive is the program?
+    - what's the fee structure?
+    - course charges
+    - payment amount
+
+- intent: ask_enrollment_process
+  examples: |
+    - how do I enroll?
+    - enrollment process
+    - how to register?
+    - steps to join
+    - admission procedure
+    - how to sign up?
+    - registration steps
+    - how do I apply?
+    - enrollment requirements
+    - how to get admission?
+
+- intent: start_enrollment
+  examples: |
+    - I want to enroll
+    - start enrollment
+    - register me
+    - I want to join
+    - sign me up
+    - begin registration
+    - I'd like to apply
+    - start admission process
+    - enroll me in a course
+    - I want to start
+
+- intent: ask_course_schedule
+  examples: |
+    - what's the schedule?
+    - course timings
+    - class schedule
+    - when are the classes?
+    - course duration
+    - timetable
+    - class timings for [Python Programming](course_name)
+    - schedule for [Data Science](course_name)
+    - when does the course start?
+    - class hours
+
+- intent: ask_prerequisites
+  examples: |
+    - what are the prerequisites?
+    - requirements for the course
+    - do I need prior experience?
+    - course requirements
+    - eligibility criteria
+    - what do I need to know before starting?
+    - prerequisites for [Machine Learning](course_name)
+    - required background for [Cybersecurity](course_name)
+
+- intent: ask_instructor
+  examples: |
+    - who is the instructor?
+    - tell me about the teacher
+    - course instructor
+    - who teaches this course?
+    - faculty information
+    - professor details
+    - instructor for [Data Science](course_name)
+    - who will be teaching [Web Development](course_name)?
+
+- intent: ask_certificates
+  examples: |
+    - do you provide certificates?
+    - will I get a certificate?
+    - certification information
+    - course completion certificate
+    - diploma
+    - degree information
+    - what certificate will I receive?
+    - accreditation details
+
+- intent: ask_payment_methods
+  examples: |
+    - what payment methods do you accept?
+    - how can I pay?
+    - payment options
+    - accepted payment methods
+    - can I pay with credit card?
+    - payment modes
+    - how to make payment?
+    - billing options
+
+- intent: ask_refund_policy
+  examples: |
+    - what's your refund policy?
+    - can I get a refund?
+    - refund terms
+    - money back guarantee
+    - cancellation policy
+    - return policy
+    - if I'm not satisfied can I get refund?
+
+- intent: ask_technical_help
+  examples: |
+    - I need technical help
+    - technical support
+    - I'm having technical issues
+    - login problems
+    - can't access the platform
+    - website not working
+    - app issues
+    - technical difficulties
+    - need tech support
+
+- intent: ask_contact_info
+  examples: |
+    - how can I contact you?
+    - contact information
+    - phone number
+    - email address
+    - office address
+    - how to reach support?
+    - contact details
+    - customer service number
+
+- intent: book_appointment
+  examples: |
+    - I want to book an appointment
+    - schedule a meeting
+    - book a consultation
+    - arrange a call
+    - set up an appointment
+    - I need to meet someone
+    - can I schedule a session?
+    - book advisor meeting
+
+- intent: ask_financial_aid
+  examples: |
+    - do you offer financial aid?
+    - scholarships available?
+    - student loans
+    - payment plans
+    - financial assistance
+    - funding options
+    - can I get help with fees?
+    - educational loans
+
+- intent: ask_student_progress
+  examples: |
+    - how can I track my progress?
+    - student dashboard
+    - progress tracking
+    - my performance
+    - grades information
+    - how am I doing?
+    - course progress
+    - completion status
+
+- intent: search_courses
+  examples: |
+    - search for [programming](category) courses
+    - find [data](category) related courses
+    - look for [business](category) programs
+    - courses in [technology](category)
+    - [beginner](level) level courses
+    - [advanced](level) programs
+    - [online](program_type) courses
+    - [part-time](program_type) programs
+
+- intent: ask_location
+  examples: |
+    - where are you located?
+    - office location
+    - address
+    - campus location
+    - where is the institute?
+    - physical location
+    - directions to office
+
+- intent: ask_hours
+  examples: |
+    - what are your business hours?
+    - office hours
+    - when are you open?
+    - operating hours
+    - what time do you close?
+    - availability hours
+    - support hours
+
+- intent: out_of_scope
+  examples: |
+    - I want to order pizza
+    - what's the weather like?
+    - tell me a joke
+    - sing me a song
+    - what's 2+2?
+    - how old are you?
+    - where do you live?
+    - what's your favorite color? 

@@ -1,0 +1,56 @@
+version: "3.1"
+
+stories:
+
+- story: happy path
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: ask_course_info
+  - action: utter_ask_course_info
+  - intent: affirm
+  - action: utter_ask_enrollment_process
+
+- story: course inquiry
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: ask_course_details
+  - action: utter_ask_course_info
+
+- story: enrollment process
+  steps:
+  - intent: ask_enrollment_process
+  - action: utter_ask_enrollment_process
+  - intent: start_enrollment
+  - action: utter_ask_user_name
+
+- story: bot challenge
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+
+- story: say goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: pricing inquiry
+  steps:
+  - intent: ask_course_pricing
+  - action: utter_ask_payment_methods
+
+- story: technical help
+  steps:
+  - intent: ask_technical_help
+  - action: utter_ask_technical_help
+
+- story: contact information
+  steps:
+  - intent: ask_contact_info
+  - action: utter_ask_contact_info
+
+- story: fallback
+  steps:
+  - intent: nlu_fallback
+  - action: utter_default 

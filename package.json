@@ -1,0 +1,22 @@
+{
+  "name": "chatbotx-ai-support-assistant",
+  "version": "1.0.0",
+  "description": "Professional AI Support Assistant for Education Company",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd backend && python -m uvicorn app.main:app --reload --port 8000",
+    "client": "cd frontend && npm start",
+    "install-all": "npm install && cd frontend && npm install && cd ../backend && pip install -r requirements.txt",
+    "build": "cd frontend && npm run build",
+    "test": "cd frontend && npm test && cd ../backend && pytest",
+    "lint": "cd frontend && npm run lint",
+    "format": "cd frontend && npm run format"
+  },
+  "keywords": ["chatbot", "AI", "education", "support", "rasa", "react", "mongodb"],
+  "author": "ChatBotX Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+} 

@@ -1,0 +1,118 @@
+# Rasa Configuration for ChatBotX - AI Support Assistant
+# Advanced NLU and Core configuration for education domain
+
+version: '3.1'
+
+# NLU Pipeline Configuration
+pipeline:
+  # Language model and tokenization
+  - name: SpacyNLP
+    model: "en_core_web_md"
+    case_sensitive: False
+  
+  - name: SpacyTokenizer
+  
+  - name: SpacyFeaturizer
+    pooling: mean
+  
+  # Character-level features
+  - name: RegexFeaturizer
+  
+  - name: LexicalSyntacticFeaturizer
+  
+  # Word-level features
+  - name: CountVectorsFeaturizer
+    analyzer: word
+    min_ngram: 1
+    max_ngram: 4
+  
+  - name: CountVectorsFeaturizer
+    analyzer: char_wb
+    min_ngram: 1
+    max_ngram: 4
+  
+  # Intent classification
+  - name: DIETClassifier
+    epochs: 100
+    constrain_similarities: true
+    model_confidence: linear_norm
+    
+  # Entity extraction
+  - name: SpacyEntityExtractor
+    dimensions: 
+      - PERSON
+      - DATE
+      - GPE
+      - MONEY
+      - ORG
+  
+  - name: CRFEntityExtractor
+  
+  - name: DucklingEntityExtractor
+    url: http://duckling:8000
+    dimensions:
+      - amount-of-money
+      - distance
+      - duration
+      - email
+      - number
+      - ordinal
+      - phone-number
+      - quantity
+      - time
+      - url
+      - volume
+  
+  # Synonyms and response selection
+  - name: EntitySynonymMapper
+  
+  - name: ResponseSelector
+    epochs: 100
+    retrieval_intent: faq
+  
+  - name: FallbackClassifier
+    threshold: 0.3
+    ambiguity_threshold: 0.1
+
+# Core Policy Configuration
+policies:
+  # Rule-based policies
+  - name: RulePolicy
+    core_fallback_threshold: 0.4
+    core_fallback_action_name: "action_default_fallback"
+    enable_fallback_prediction: True
+  
+  # Machine learning policies
+  - name: UnexpecTEDIntentPolicy
+    max_history: 5
+    epochs: 100
+  
+  - name: TEDPolicy
+    max_history: 5
+    epochs: 100
+    constrain_similarities: true
+    
+  - name: MemoizationPolicy
+    max_history: 5
+
+# Assistant ID
+assistant_id: chatbotx_education_assistant
+
+# Language
+language: en
+
+# API Configuration
+api:
+  jwt_secret: "your_jwt_secret_here"
+  jwt_method: "HS256"
+
+# Training Configuration
+training:
+  # Data validation
+  validate_domain: true
+  validate_stories: true
+  validate_rules: true
+  
+  # Augmentation
+  intent_classification_accuracy_threshold: 0.8
+  entity_extraction_accuracy_threshold: 0.8 
