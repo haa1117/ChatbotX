@@ -1,3 +1,7 @@
+<img width="1909" height="861" alt="image_original" src="https://github.com/user-attachments/assets/b7e2c76a-02f8-4f4f-9f0e-f0ac8248c0e3" />
+<img width="1902" height="918" alt="Screenshot 2025-06-19 155052" src="https://github.com/user-attachments/assets/14edddaa-e2f9-499f-91ce-3b002b5df6b0" />
+<img width="1908" height="920" alt="image_original1" src="https://github.com/user-attachments/assets/a893ae47-c8ae-4628-ad08-77f6204c060c" />
+
 # ChatBotX – AI Support Assistant
 
 ## 🚀 Professional AI Support Assistant for Education Companies
