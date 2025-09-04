@@ -1,0 +1,187 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:5.0
+    container_name: chatbotx-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: chatbotx
+      MONGO_INITDB_ROOT_PASSWORD: chatbotx123
+      MONGO_INITDB_DATABASE: chatbotx
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - chatbotx-network
+
+  redis:
+    image: redis:6.2-alpine
+    container_name: chatbotx-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - chatbotx-network
+
+  duckling:
+    image: rasa/duckling:latest
+    container_name: chatbotx-duckling
+    restart: unless-stopped
+    ports:
+      - "8001:8000"
+    networks:
+      - chatbotx-network
+
+  rasa:
+    build:
+      context: ./rasa
+      dockerfile: Dockerfile
+    container_name: chatbotx-rasa
+    restart: unless-stopped
+    ports:
+      - "5005:5005"
+    volumes:
+      - ./rasa:/app
+    environment:
+      - DUCKLING_URL=http://duckling:8000
+    depends_on:
+      - duckling
+      - mongodb
+      - redis
+    networks:
+      - chatbotx-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: chatbotx-backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - MONGODB_URL=mongodb://chatbotx:chatbotx123@mongodb:27017/chatbotx?authSource=admin
+      - REDIS_URL=redis://redis:6379
+      - RASA_URL=http://rasa:5005
+      - ENVIRONMENT=production
+    depends_on:
+      - mongodb
+      - redis
+      - rasa
+    volumes:
+      - ./backend:/app
+    networks:
+      - chatbotx-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: chatbotx-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8080
+      - REACT_APP_WS_URL=ws://localhost:8080
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - chatbotx-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: chatbotx-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - chatbotx-network
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: chatbotx-prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    networks:
+      - chatbotx-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: chatbotx-grafana
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - prometheus
+    networks:
+      - chatbotx-network
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+    container_name: chatbotx-elasticsearch
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - chatbotx-network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.15.0
+    container_name: chatbotx-kibana
+    restart: unless-stopped
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    networks:
+      - chatbotx-network
+
+volumes:
+  mongodb_data:
+  redis_data:
+  prometheus_data:
+  grafana_data:
+  elasticsearch_data:
+
+networks:
+  chatbotx-network:
+    driver: bridge 
